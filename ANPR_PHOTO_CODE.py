@@ -12,7 +12,7 @@ layer_names = net.getLayerNames()
 output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
 img = cv2.imread("46.jpg")
-#img = cv2.imread("C:\\hubbox\\my_deep_anpr\\Plate\\12.jpg")
+
 
 
 img = cv2.resize(img, None, fx=0.7, fy=0.7)
@@ -55,7 +55,6 @@ for i in range(len(boxes)):
         label = str(classes[class_ids[i]])
         color = (0, 255, 0)
         cv2.rectangle(img, (x, y), (x + w, y + h), color, 1)
-        #cv2.putText(img, label, (x + int(w * 0.9) + 20, y + int(h/2) + 10), font, 1.5, color, 2)
 
         mask = np.zeros(img.shape[0:2], dtype="uint8")
         cv2.rectangle(mask, (x + int(w * 0.08), y), (x + w - int(w * 0.07), y + h), 255, -1)
@@ -67,34 +66,19 @@ for i in range(len(boxes)):
         (x2, y2) = (np.max(x), np.max(y))
         cropped_image = img[x1:x2, y1:y2]
         cropped_image = cv2.resize(cropped_image, None, fx=1 / 0.2, fy=1 / 0.2)
-        #plate = cv2.bitwise_not(cropped_image)
         plate = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)
         plate = cv2.adaptiveThreshold(plate, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 101, 11)
         kernel_size = 3
         kernel = np.ones((kernel_size, kernel_size), np.uint8)
         plate = cv2.dilate(plate, kernel, iterations=1)
-        #plate = cv2.morphologyEx(plate, cv2.MORPH_CLOSE, kernel)
+
         plate = cv2.medianBlur(plate, kernel_size)
         cv2.imshow("Plaka", plate)
-        #print(pytesseract.image_to_string(plate, lang='eng',
-                                           #config='-c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ --psm 8 --oem 3'))
+
         text = pytesseract.image_to_string(plate, lang='eng',
                                            config='-c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ --psm 8 --oem 3')
 
-
-
-        #last_img = cv2.GaussianBlur(gray_cropped, (9, 9), 0)
-        #last_img = cv2.bilateralFilter(last_img, 11, 75, 75)
-        #last_img = cv2.adaptiveThreshold(last_img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 71, 2)  # arka plakalar için 31 21 tercih edildi ve güzel sonuçlar alındı
-        #kernel = np.ones((3, 3), np.uint8)
-        #last_img = cv2.dilate(last_img, kernel, iterations=1)
-        #cv2.imshow("Plate", last_img)
-
-        #print(pytesseract.image_to_string(last_img, lang='eng',
-                                          #config='-c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ --psm 8 --oem 3'))
-        #text = pytesseract.image_to_string(last_img, lang='eng',
-                                           #config='-c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ --psm 8 --oem 3')
-        #print(text)
+        
 
 list(text)
 text = text.split()
