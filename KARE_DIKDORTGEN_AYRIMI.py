@@ -14,7 +14,7 @@ output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 img = cv2.imread("./kare/165.jpg")
 
 img = cv2.resize(img, (1440, 800))
-#img = cv2.resize(img, None, fx=0.8, fy=0.8)
+
 height, width, channels = img.shape
 
 blob = cv2.dnn.blobFromImage(img, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
@@ -91,40 +91,6 @@ for i in range(len(boxes)):
                 plate = cv2.dilate(plate, kernel, iterations=1)
                 plate = cv2.medianBlur(plate, kernel_size)
 
-                # Find my contours
-                # contours = cv2.findContours(plate, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[0]
-                #
-                # # Loop through my contours to find rectangles and put them in a list, so i can view them individually later.
-                # cntrRect = []
-                # plate2 = plate.copy()
-                # plate2 = cv2.cvtColor(plate2, cv2.COLOR_BGR2RGB)
-                # for i in contours:
-                #     epsilon = 0.05 * cv2.arcLength(i, True)
-                #     approx = cv2.approxPolyDP(i, epsilon, True)
-                #     if len(approx) == 4:
-                #         cv2.drawContours(plate2, cntrRect, -1, (0, 255, 0), 2)
-                #         cv2.imshow('Roi Rect ONLY', plate2)
-                #         cntrRect.append(approx)
-                #
-
-                # contours = cv2.findContours(plate , cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-                #
-                # contours = imutils.grab_contours(contours)
-                # contours = sorted(contours, key=cv2.contourArea, reverse=True)[:5]
-                # screenCnt = None
-                # for c in contours:
-                #     peri = cv2.arcLength(c, True)
-                #     approx = cv2.approxPolyDP(c,0.04 * peri, True)
-                #
-                #     if len(approx) == 4:
-                #         screenCnt = approx
-                #         break
-                #
-                # plate2 = plate.copy()
-                # plate2 = cv2.cvtColor(plate2, cv2.COLOR_BGR2RGB)
-                # if screenCnt is not None:
-                #     cv2.drawContours(plate2, screenCnt, -1, (0, 255, 0), 20)
-                #     cv2.imshow("Plaka 2", plate2)
 
                 cv2.imshow("Plaka", plate)
 
