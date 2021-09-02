@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 import pytesseract
-import imutils
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 net = cv2.dnn.readNet("yolov3_training_final.weights", "yolov3_testing.cfg")
