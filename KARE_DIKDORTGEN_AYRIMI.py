@@ -11,7 +11,7 @@ classes = ["Plaka"]
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
-img = cv2.imread("./kare/165.jpg")
+img = cv2.imread("165.jpg")
 
 img = cv2.resize(img, (1440, 800))
 
